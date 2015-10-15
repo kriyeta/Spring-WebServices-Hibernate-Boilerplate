@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.techlify.dao.ProductDAO;
 import com.techlify.model.Product;
+import com.techlify.repository.ProductRepository;
 
 @RestController
 public class ProductController {
 	@Autowired
-	private ProductDAO productDao;
+	private ProductRepository productDao;
 
 	@RequestMapping(value = { "/product/save" }, method = RequestMethod.POST)
 	public Product saveProduct(@RequestBody Product product) {
