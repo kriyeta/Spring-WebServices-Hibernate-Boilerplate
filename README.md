@@ -1,6 +1,6 @@
 Pre-Requisites
 ================
-**--** Create Mysql Database eg. 'spare_parts'
+**--** Create Mysql Database eg. **'spare_parts'**
 
 **--** Update database name, user and password in applications.properties in resource folder
 
@@ -11,13 +11,18 @@ Run Application
 
 Test Application
 ==============
-**--** Download RESTClient and install
+**--** Download **[RESTClient](http://code.fosshub.com/WizToolsorg-RESTClient/downloads)** and install
 
-**--** Give auth user kamal and password kamal
+**--** Give auth user **kamal** and password **kamal**
 
 **--** put urls to test
 
-   * http://localhost:8080/product/save with method **post** data *{"name":"tyre", "price":20,"quantity":10,"description":"a rubber covering, typically inflated or surrounding an inflated inner tube, placed round a wheel to form a soft contact with the road."}* as application/json utf-8
+   * http://localhost:8080/product/save with method **post** data as **application/json utf-8**
+```
+#!json
+
+{"name":"tyre", "price":20,"quantity":10,"description":"a rubber covering, typically inflated or surrounding an inflated inner tube, placed round a wheel to form a soft contact with the road."}
+```
 
    * http://localhost:8080/product/all
 
