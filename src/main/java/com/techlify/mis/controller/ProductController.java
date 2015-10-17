@@ -14,41 +14,40 @@ import com.techlify.mis.repository.ProductRepository;
 @RestController
 public class ProductController {
 	@Autowired
-	private ProductRepository productDao;
+	private ProductRepository productRepository;
 
 	@RequestMapping(value = { "/product/save" }, method = RequestMethod.POST)
 	public Product saveProduct(@RequestBody Product product) {
-		return productDao.save(product);
+		return productRepository.save(product);
 	}
 
 	@RequestMapping(value = { "/product/all" }, method = RequestMethod.GET)
 	public List<Product> getAllProducts() {
-		List<Product> products = (List<Product>) productDao.findAll();
+		List<Product> products = (List<Product>) productRepository.findAll();
 		return products;
 	}
-	
+
 	@RequestMapping(value = { "/product/get-by-name" }, method = RequestMethod.GET)
 	public Product getProductByName(String name) {
-		Product product	=	productDao.findByName(name);
+		Product product = productRepository.findByName(name);
 		return product;
 	}
-	
+
 	@RequestMapping(value = { "/product/get" }, method = RequestMethod.GET)
 	public Product getProductByName(long id) {
-		Product product	=	productDao.findOne(id);
+		Product product = productRepository.findOne(id);
 		return product;
 	}
-	
-	
+
 	@RequestMapping(value = { "/product/delete-all" }, method = RequestMethod.PUT)
 	public String removeAllProducts() {
-		productDao.deleteAll();
+		productRepository.deleteAll();
 		return "All products deleted";
 	}
-	
+
 	@RequestMapping(value = { "/product/delete" }, method = RequestMethod.PUT)
 	public String removeProduct(long id) {
-		productDao.delete(id);
-		return "Product deleted with ID: "+id;
+		productRepository.delete(id);
+		return "Product deleted with ID: " + id;
 	}
 }

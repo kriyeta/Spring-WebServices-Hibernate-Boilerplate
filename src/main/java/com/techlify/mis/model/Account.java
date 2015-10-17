@@ -16,7 +16,7 @@ public class Account {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(name = "tx_account_username", length = 60, unique=true)
+	@Column(name = "tx_account_username", length = 60, unique = true)
 	private String username;
 
 	@Column(name = "tx_account_password", length = 60)
