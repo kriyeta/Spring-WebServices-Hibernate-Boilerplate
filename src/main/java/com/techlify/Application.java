@@ -17,8 +17,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.techlify.model.Account;
-import com.techlify.repository.AccountRepository;
+import com.techlify.mis.model.Account;
+import com.techlify.mis.repository.AccountRepository;
 
 @SpringBootApplication
 public class Application {

@@ -1,4 +1,4 @@
-package com.techlify.model;
+package com.techlify.mis.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

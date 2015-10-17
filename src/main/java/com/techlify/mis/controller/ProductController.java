@@ -1,4 +1,4 @@
-package com.techlify.controller;
+package com.techlify.mis.controller;
 
 import java.util.List;
 
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.techlify.model.Product;
-import com.techlify.repository.ProductRepository;
+import com.techlify.mis.model.Product;
+import com.techlify.mis.repository.ProductRepository;
 
 @RestController
 public class ProductController {
