@@ -1,5 +1,6 @@
 package com.techlify;
 
+import org.jsondoc.spring.boot.starter.EnableJSONDoc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -21,6 +22,7 @@ import com.techlify.mis.model.Account;
 import com.techlify.mis.repository.AccountRepository;
 
 @SpringBootApplication
+@EnableJSONDoc
 public class Application {
 
 	public static void main(String[] args) {

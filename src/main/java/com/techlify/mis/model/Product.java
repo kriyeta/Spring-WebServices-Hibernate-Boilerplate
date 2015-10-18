@@ -7,25 +7,34 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.jsondoc.core.annotation.ApiObject;
+import org.jsondoc.core.annotation.ApiObjectField;
+
 @Entity
 @Table(name = "t_product")
+@ApiObject
 public class Product {
 
 	@Id
 	@Column(name = "id_productid")
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@ApiObjectField
 	private long id;
 
 	@Column(name = "tx_product_name", length = 50)
+	@ApiObjectField
 	private String name;
 
 	@Column(name = "n_price", length = 10, nullable = true)
+	@ApiObjectField
 	private long price;
 
 	@Column(name = "n_quantity", length = 3, nullable = true)
+	@ApiObjectField
 	private long quantity;
 
 	@Column(name = "tx_description", length = 150, nullable = true)
+	@ApiObjectField
 	private String description;
 
 	public long getId() {

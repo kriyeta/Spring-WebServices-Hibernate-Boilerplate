@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Check;
+
 /**
  * @author kamal
  *
@@ -31,6 +33,9 @@ public class Task {
 
 	@Column(name = "tx_url", length = 50)
 	private String url;
+	
+	@Column(name = "tx_method", length = 20)
+	private String method;
 
 	public long getTaskId() {
 		return taskId;
