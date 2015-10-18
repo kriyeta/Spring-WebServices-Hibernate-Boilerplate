@@ -1,10 +1,13 @@
 package com.techlify.rbac.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -31,6 +34,10 @@ public class Task {
 
 	@Column(name = "tx_url", length = 50)
 	private String url;
+	
+	
+	@ManyToMany(mappedBy = "tasks")
+	private List<Role> role;
 
 	public long getTaskId() {
 		return taskId;
