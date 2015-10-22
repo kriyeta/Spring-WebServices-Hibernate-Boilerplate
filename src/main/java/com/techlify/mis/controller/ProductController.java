@@ -9,7 +9,6 @@ import org.jsondoc.core.annotation.ApiPathParam;
 import org.jsondoc.core.annotation.ApiQueryParam;
 import org.jsondoc.core.annotation.ApiResponseObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,9 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.techlify.commons.Constants;
 import com.techlify.mis.model.Product;
 import com.techlify.mis.repository.ProductRepository;
+import com.techlify.rbac.commons.Result;
 
 @RestController
-@RequestMapping(value = "/product", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/product")
 @Api(description = "The product controller", name = "Product services")
 public class ProductController {
 	@Autowired
@@ -32,14 +32,14 @@ public class ProductController {
 	/*
 	 * GET requests
 	 */
-	@ApiMethod(id = Constants.PRODUCT_GROUP + "_FIND_ALL", description="VIEW ALL PRODUCT")
+	@ApiMethod(id = Constants.PRODUCT_GROUP + "_FIND_ALL", description = "VIEW ALL PRODUCT")
 	@RequestMapping(value = { "/all" }, method = RequestMethod.GET)
-	public @ApiResponseObject @ResponseBody List<Product> getAllProducts() {
+	public @ApiResponseObject @ResponseBody Result getAllProducts() {
 		List<Product> products = (List<Product>) productRepository.findAll();
-		return products;
+		return new Result("sucess",products);
 	}
 
-	@ApiMethod(id = Constants.PRODUCT_GROUP + "_FIND_BY_NAME", description="VIEW PRODUCT BY NAME")
+	@ApiMethod(id = Constants.PRODUCT_GROUP + "_FIND_BY_NAME", description = "VIEW PRODUCT BY NAME")
 	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
 	public @ApiResponseObject @ResponseBody List<Product> getProductByName(
 			@ApiQueryParam(name = "name", description = "The name of the product") @RequestParam("name") String name) {
@@ -47,7 +47,7 @@ public class ProductController {
 		return products;
 	}
 
-	@ApiMethod(id = Constants.PRODUCT_GROUP + "_FIND_BY_ID", description="VIEW PRODUCT BY ID")
+	@ApiMethod(id = Constants.PRODUCT_GROUP + "_FIND_BY_ID", description = "VIEW PRODUCT BY ID")
 	@RequestMapping(value = { "/{id}" }, method = RequestMethod.GET)
 	public @ApiResponseObject @ResponseBody Product getProductById(
 			@ApiPathParam(name = "id", description = "The id of the product") @PathVariable("id") Long id) {
@@ -58,7 +58,7 @@ public class ProductController {
 	/*
 	 * POST requests
 	 */
-	@ApiMethod(id = Constants.PRODUCT_GROUP + "_ADD", description="ADD PRODUCT")
+	@ApiMethod(id = Constants.PRODUCT_GROUP + "_ADD", description = "ADD PRODUCT")
 	@RequestMapping(value = { "/add" }, method = RequestMethod.POST)
 	public @ApiResponseObject @ResponseBody Product saveProduct(
 			@ApiBodyObject @RequestBody Product product) {
@@ -68,24 +68,25 @@ public class ProductController {
 	/*
 	 * PUT requests
 	 */
-	@ApiMethod(id = Constants.PRODUCT_GROUP + "_UPDATE_BY_ID", description="UPDATE PRODUCT")
+	@ApiMethod(id = Constants.PRODUCT_GROUP + "_UPDATE_BY_ID", description = "UPDATE PRODUCT")
 	@RequestMapping(value = { "/{id}" }, method = RequestMethod.PUT)
-	public @ApiResponseObject @ResponseBody Product updateProduct(
+	public @ApiResponseObject @ResponseBody Product updateProduct(@ApiPathParam(name = "id", description = "The id of the product") @PathVariable("id") Long id,
 			@ApiBodyObject @RequestBody Product product) {
+		product.setId(productRepository.findOne(id).getId());
 		return productRepository.saveAndFlush(product);
 	}
 
 	/*
 	 * DELETE requests
 	 */
-	@ApiMethod(id = Constants.PRODUCT_GROUP + "_DELETE_ALL", description="DELETE ALL PRODUCT")
+	@ApiMethod(id = Constants.PRODUCT_GROUP + "_DELETE_ALL", description = "DELETE ALL PRODUCT")
 	@RequestMapping(value = { "/all" }, method = RequestMethod.DELETE)
 	public @ApiResponseObject @ResponseBody String removeAllProducts() {
 		productRepository.deleteAll();
 		return "All products deleted";
 	}
 
-	@ApiMethod(id = Constants.PRODUCT_GROUP + "_DELETE_BY_ID", description="DELETE PRODUCT")
+	@ApiMethod(id = Constants.PRODUCT_GROUP + "_DELETE_BY_ID", description = "DELETE PRODUCT")
 	@RequestMapping(value = { "/{id}" }, method = RequestMethod.DELETE)
 	public @ApiResponseObject @ResponseBody String removeProduct(
 			@ApiPathParam(name = "id", description = "The id of the product") @PathVariable("id") Long id) {

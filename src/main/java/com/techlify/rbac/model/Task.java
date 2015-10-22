@@ -1,13 +1,10 @@
 package com.techlify.rbac.model;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -28,6 +25,9 @@ public class Task {
 
 	@Column(name = "tx_display_name", length = 50)
 	private String displayName;
+	
+	@Column(name = "tx_default_display_name", length = 50, nullable=true)
+	private String defaultDisplayName;
 
 	@Column(name = "tx_group", length = 50)
 	private String group;
@@ -37,9 +37,6 @@ public class Task {
 	
 	@Column(name = "tx_method", length = 20)
 	private String method;
-	
-	@ManyToMany(mappedBy = "tasks")
-	private List<Role> role;
 
 	public long getTaskId() {
 		return taskId;
@@ -89,12 +86,12 @@ public class Task {
 		this.method = method;
 	}
 
-	public List<Role> getRole() {
-		return role;
+	public String getDefaultDisplayName() {
+		return defaultDisplayName;
 	}
 
-	public void setRole(List<Role> role) {
-		this.role = role;
+	public void setDefaultDisplayName(String defaultDisplayName) {
+		this.defaultDisplayName = defaultDisplayName;
 	}
 
 }

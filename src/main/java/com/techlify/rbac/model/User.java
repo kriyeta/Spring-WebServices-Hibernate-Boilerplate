@@ -1,10 +1,16 @@
 package com.techlify.rbac.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -18,7 +24,7 @@ public class User {
 	@Id
 	@Column(name = "id_userid")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long userId;
+	private Long userId;
 
 	@Column(name = "tx_user_name", length = 50, unique = true)
 	private String userName;
@@ -44,11 +50,30 @@ public class User {
 	@Column(name = "tx_email", length = 100, nullable = true)
 	private String email;
 
-	public long getUserId() {
+	@ManyToMany(cascade=CascadeType.ALL)
+	@JoinTable(name = "tm_user_role", joinColumns = { @JoinColumn(name = "id_userid", referencedColumnName = "id_userid") }, inverseJoinColumns = { @JoinColumn(name = "id_roleid", referencedColumnName = "id_roleid") })
+	private List<Role> roles;
+	
+	@Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (userId == null || obj == null || getClass() != obj.getClass())
+            return false;
+        User that = (User) obj;
+        return userId.equals(that.userId);
+    }
+    @Override
+    public int hashCode() {
+        return userId == null ? 0 : userId.hashCode();
+    }
+	
+	
+	public Long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(long userId) {
+	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
 
@@ -114,6 +139,14 @@ public class User {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
 
 }

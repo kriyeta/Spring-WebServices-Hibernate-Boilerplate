@@ -12,5 +12,6 @@ public class Constants {
 	public final static String RBAC_GROUP = "RBAC";
 	// User group
 	public final static String USER_GROUP = "USER";
+	public static final String ROLE_GROUP = "ROLE";
 
 }
