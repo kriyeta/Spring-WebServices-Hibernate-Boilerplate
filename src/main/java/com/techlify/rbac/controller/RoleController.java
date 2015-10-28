@@ -25,7 +25,7 @@ import com.techlify.rbac.repository.RoleRepository;
 
 @RestController
 @RequestMapping(value = "/role")
-@Api(description = "The role controller", name = "Role services")
+@Api(description = "The role controller", name = Constants.ROLE_GROUP)
 public class RoleController {
 	@Autowired
 	private RoleRepository roleRepository;

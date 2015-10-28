@@ -37,7 +37,10 @@ public class Task {
 	
 	@Column(name = "tx_method", length = 20)
 	private String method;
-
+	
+	@Column(name = "bool_is_dispay")
+	private boolean isDispay;
+	
 	public long getTaskId() {
 		return taskId;
 	}
@@ -92,6 +95,14 @@ public class Task {
 
 	public void setDefaultDisplayName(String defaultDisplayName) {
 		this.defaultDisplayName = defaultDisplayName;
+	}
+
+	public boolean isDispay() {
+		return isDispay;
+	}
+
+	public void setDispay(boolean isDispay) {
+		this.isDispay = isDispay;
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.techlify.rbac.controller;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.jsondoc.core.annotation.Api;
@@ -20,12 +21,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.techlify.commons.Constants;
 import com.techlify.rbac.commons.Result;
+import com.techlify.rbac.commons.Utility;
 import com.techlify.rbac.model.User;
 import com.techlify.rbac.repository.UserRepository;
 
 @RestController
 @RequestMapping(value = "/user", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-@Api(description = "The user controller", name = "User services")
+@Api(description = "The user controller", name = Constants.USER_GROUP)
 public class UserController {
 	@Autowired
 	private UserRepository userRepository;
@@ -66,6 +68,24 @@ public class UserController {
 		return userRepository.save(user);
 	}
 
+	@ApiMethod(id = Constants.USER_GROUP + "_AUTHENTICATE", description="AUTHENTICATE USER")
+	@RequestMapping(value = { "/authenticate" }, method = RequestMethod.POST)
+	public @ApiResponseObject @ResponseBody Result authenticateUser(
+			@ApiBodyObject @RequestBody User user) {
+		User existingUser =  userRepository.findByUserName(user.getUserName());
+		try {
+			if(existingUser != null && user !=null){
+				existingUser.setPassword(Utility.encryptPassword(existingUser.getPassword()));
+			}
+			if(existingUser != null && user !=null&& existingUser.getPassword().equals(user.getPassword()))
+				return new Result("Success",existingUser);
+			else
+				return new Result("Failed",null);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		return new Result("Failed",null);
+	}
 	/*
 	 * PUT requests
 	 */
@@ -133,19 +153,4 @@ public class UserController {
 		userRepository.delete(id);
 		return "User deleted with ID: " + id;
 	}
-	
-	
-	@ApiMethod(id = Constants.USER_GROUP + "_AUTHENTICATE", description="AUTHENTICATE USER")
-	@RequestMapping(value = { "/authenticate" }, method = RequestMethod.POST)
-	public @ApiResponseObject @ResponseBody Result AuthenticateUser(
-			@ApiBodyObject @RequestBody User user) {
-		User existingUser =  userRepository.findByUserName(user.getUserName());
-		if(existingUser != null && user !=null&& existingUser.getPassword().equals(user.getPassword()))
-			return new Result("Sucess",user);
-		else
-			return new Result("Failed",user);
-	}
-	
-	
-
 }

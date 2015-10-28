@@ -24,7 +24,7 @@ import com.techlify.rbac.commons.Result;
 
 @RestController
 @RequestMapping(value = "/product")
-@Api(description = "The product controller", name = "Product services")
+@Api(description = "The product controller", name = Constants.PRODUCT_GROUP)
 public class ProductController {
 	@Autowired
 	private ProductRepository productRepository;
