@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -40,6 +39,10 @@ public class Role {
 	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "tm_role_task", joinColumns = { @JoinColumn(name = "id_roleid", referencedColumnName = "id_roleid") }, inverseJoinColumns = { @JoinColumn(name = "id_taskid", referencedColumnName = "id_taskid") })
 	private List<Task> tasks;
+
+	@ManyToMany(cascade=CascadeType.ALL)
+	@JoinTable(name = "tm_role_view_task", joinColumns = { @JoinColumn(name = "id_roleid", referencedColumnName = "id_roleid") }, inverseJoinColumns = { @JoinColumn(name = "id_view_taskid", referencedColumnName = "id_view_taskid") })
+	private List<ViewTask> viewTasks;
 
 	public long getRoleId() {
 		return roleId;
@@ -79,6 +82,14 @@ public class Role {
 
 	public void setTasks(List<Task> tasks) {
 		this.tasks = tasks;
+	}
+
+	public List<ViewTask> getViewTasks() {
+		return viewTasks;
+	}
+
+	public void setViewTasks(List<ViewTask> viewTasks) {
+		this.viewTasks = viewTasks;
 	}
 
 }

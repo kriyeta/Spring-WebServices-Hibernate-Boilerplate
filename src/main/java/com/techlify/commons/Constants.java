@@ -16,5 +16,7 @@ public class Constants {
 	public static final String ROLE_GROUP = "ROLE";
 	//Role group
 	public static final String TASK_GROUP = "TASK";
+	//Role group
+	public static final String VIEW_TASK_GROUP = "VIEW_TASK";
 
 }
