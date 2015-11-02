@@ -35,9 +35,13 @@ public class RoleController {
 	 */
 	@ApiMethod(id = Constants.ROLE_GROUP + "_FIND_ALL", description = "VIEW ALL ROLES")
 	@RequestMapping(value = { "/all" }, method = RequestMethod.GET)
-	public @ApiResponseObject @ResponseBody List<Role> getAllRoles() {
-		List<Role> roles = (List<Role>) roleRepository.findAll();
-		return roles;
+	public @ApiResponseObject @ResponseBody Result getAllRoles() {
+		try{
+			List<Role> roles = (List<Role>) roleRepository.findAll();
+			return new Result("Success", roles);
+		} catch(Exception e){
+			return new Result("Failed", e);
+		}
 	}
 
 	@ApiMethod(id = Constants.ROLE_GROUP + "_FIND_BY_NAME", description = "VIEW ROLE BY NAME")
@@ -48,7 +52,7 @@ public class RoleController {
 		if (role == null)
 			return new Result("Failed", role);
 		else
-			return new Result("Sucess", role);
+			return new Result("Success", role);
 	}
 
 	@ApiMethod(id = Constants.ROLE_GROUP + "_FIND_BY_ID", description = "VIEW ROLE BY ID")
