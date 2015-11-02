@@ -1,5 +1,7 @@
 package com.techlify.rbac.controller;
 
+import java.util.List;
+
 import org.jsondoc.core.annotation.Api;
 import org.jsondoc.core.annotation.ApiBodyObject;
 import org.jsondoc.core.annotation.ApiMethod;
@@ -26,7 +28,16 @@ public class ViewTaskController {
 	/*
 	 * GET requests
 	 */
-	
+	@ApiMethod(id = Constants.VIEW_TASK_GROUP + "_ALL_VISIBLE_TASKS", description = "VIEW ALL VISIBLE TASKS")
+	@RequestMapping(value = { "/all-visible-tasks" }, method = RequestMethod.GET)
+	public @ApiResponseObject @ResponseBody Result getAllVisibleTask() {
+		try{
+			List<ViewTask> findAll = viewTaskRepository.findAll();
+			return new Result("Success", findAll);
+		} catch(Exception e){
+			return new Result("Success", null);
+		}
+	}
 
 
 	/*

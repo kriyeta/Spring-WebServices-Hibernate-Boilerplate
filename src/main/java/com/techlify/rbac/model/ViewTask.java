@@ -29,6 +29,9 @@ public class ViewTask {
 	@Column(name = "tx_sub_group", length = 50)
 	private String subGroup;
 	
+	@Column(name = "tx_fxml_url", length = 250)
+	private String fxmlUrl;
+	
 	@Column(name = "bool_is_dispay")
 	private boolean isDispay=true;
 	
@@ -65,6 +68,14 @@ public class ViewTask {
 
 	public void setSubGroup(String subGroup) {
 		this.subGroup = subGroup;
+	}
+
+	public String getFxmlUrl() {
+		return fxmlUrl;
+	}
+
+	public void setFxmlUrl(String fxmlUrl) {
+		this.fxmlUrl = fxmlUrl;
 	}
 
 	public boolean isDispay() {

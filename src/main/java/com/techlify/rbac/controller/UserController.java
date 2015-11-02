@@ -1,6 +1,5 @@
 package com.techlify.rbac.controller;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.jsondoc.core.annotation.Api;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.techlify.commons.Constants;
 import com.techlify.rbac.commons.Result;
-import com.techlify.rbac.commons.Utility;
 import com.techlify.rbac.model.User;
 import com.techlify.rbac.repository.UserRepository;
 
@@ -37,17 +35,36 @@ public class UserController {
 	 */
 	@ApiMethod(id = Constants.USER_GROUP + "_FIND_ALL", description="VIEW ALL USERS")
 	@RequestMapping(value = { "/all" }, method = RequestMethod.GET)
-	public @ApiResponseObject @ResponseBody List<User> getAllUsers() {
-		List<User> users = (List<User>) userRepository.findAll();
-		return users;
+	public @ApiResponseObject @ResponseBody Result getAllUsers() {
+		try{
+			List<User> users = userRepository.findAll();
+			return new Result("Success", users);
+		} catch(Exception e){
+			return new Result("Failed", null);
+		}
 	}
 
 	@ApiMethod(id = Constants.USER_GROUP + "_FIND_BY_NAME", description="VIEW USERS BY NAME")
 	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
-	public @ApiResponseObject @ResponseBody List<User> getUserByName(
+	public @ApiResponseObject @ResponseBody Result getUserByName(
 			@ApiQueryParam(name = "name", description = "The name of the user") @RequestParam("name") String name) {
-		List<User> users = userRepository.findByName(name);
-		return users;
+		try{
+			List<User> users = userRepository.findByName(name);
+			return new Result("Success", users);
+		} catch(Exception e){
+			return new Result("Failed", null);
+		}
+	}
+	
+	@ApiMethod(id = Constants.USER_GROUP + "_FIND_BY_NAME", description="VIEW USERS BY NAME")
+	@RequestMapping(value = { "/info/{userName}" }, method = RequestMethod.GET)
+	public @ApiResponseObject @ResponseBody Result getUserByUserName(@ApiPathParam(name = "userName", description = "The userName of the user") @PathVariable("userName") String userName) {
+		try{
+			User existingUser = userRepository.findByUserName(userName);
+			return new Result("Success", existingUser);
+		} catch(Exception e){
+			return new Result("Failed", null);
+		}
 	}
 
 	@ApiMethod(id = Constants.USER_GROUP + "_FIND_BY_ID", description="VIEW USER BY ID")
@@ -63,9 +80,15 @@ public class UserController {
 	 */
 	@ApiMethod(id = Constants.USER_GROUP + "_ADD", description="ADD NEW USER")
 	@RequestMapping(value = { "/add" }, method = RequestMethod.POST)
-	public @ApiResponseObject @ResponseBody User saveUser(
+	public @ApiResponseObject @ResponseBody Result saveUser(
 			@ApiBodyObject @RequestBody User user) {
-		return userRepository.save(user);
+		Result result	=	new Result("Failure", null);
+		try{
+			result =	new Result("Success", userRepository.saveAndFlush(user));
+			return result;
+		} catch(Exception e){
+			return result;
+		}
 	}
 
 	@ApiMethod(id = Constants.USER_GROUP + "_AUTHENTICATE", description="AUTHENTICATE USER")
@@ -74,14 +97,11 @@ public class UserController {
 			@ApiBodyObject @RequestBody User user) {
 		User existingUser =  userRepository.findByUserName(user.getUserName());
 		try {
-			if(existingUser != null && user !=null){
-				existingUser.setPassword(Utility.encryptPassword(existingUser.getPassword()));
-			}
 			if(existingUser != null && user !=null&& existingUser.getPassword().equals(user.getPassword()))
 				return new Result("Success",existingUser);
 			else
 				return new Result("Failed",null);
-		} catch (NoSuchAlgorithmException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return new Result("Failed",null);
@@ -90,9 +110,9 @@ public class UserController {
 	 * PUT requests
 	 */
 	
-	@ApiMethod(id = Constants.USER_GROUP + "_UPDATE_BY_ID", description="UPDATE YOUR PROFILE")
+	@ApiMethod(id = Constants.USER_GROUP + "_UPDATE_BY_USER_NAME", description="UPDATE YOUR PROFILE")
 	@RequestMapping(value = { "/{userName}/update-your-profile" }, method = RequestMethod.PUT)
-	public @ApiResponseObject @ResponseBody Result updateYourProfile(@ApiPathParam(name = "userName", description = "The id of the user") @PathVariable("username") String userName,
+	public @ApiResponseObject @ResponseBody Result updateYourProfile(@ApiPathParam(name = "userName", description = "The userName of the user") @PathVariable("username") String userName,
 			@ApiBodyObject @RequestBody User user) {
 		User existingUser = userRepository.findByUserName(userName);
 		if(existingUser != null && existingUser.getUserName().equals(user.getUserName())){
@@ -115,7 +135,7 @@ public class UserController {
 			       user.setPassword(existingUser.getPassword());
 			       user.setUserId(existingUser.getUserId());
 			       user.setUserName(existingUser.getUserName());
-				return new  Result("Sucess",userRepository.saveAndFlush(user));
+				return new  Result("Success",userRepository.saveAndFlush(user));
 				
 		}
 		else	

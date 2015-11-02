@@ -40,7 +40,7 @@ public class Role {
 	@JoinTable(name = "tm_role_task", joinColumns = { @JoinColumn(name = "id_roleid", referencedColumnName = "id_roleid") }, inverseJoinColumns = { @JoinColumn(name = "id_taskid", referencedColumnName = "id_taskid") })
 	private List<Task> tasks;
 
-	@ManyToMany(cascade=CascadeType.ALL)
+	@ManyToMany(cascade=CascadeType.MERGE)
 	@JoinTable(name = "tm_role_view_task", joinColumns = { @JoinColumn(name = "id_roleid", referencedColumnName = "id_roleid") }, inverseJoinColumns = { @JoinColumn(name = "id_view_taskid", referencedColumnName = "id_view_taskid") })
 	private List<ViewTask> viewTasks;
 

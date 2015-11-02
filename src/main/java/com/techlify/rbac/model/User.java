@@ -41,7 +41,7 @@ public class User {
 	@Column(name = "tx_department", length = 50, nullable = true)
 	private String department;
 
-	@Column(name = "tx_password", length = 50, nullable = false)
+	@Column(name = "tx_password", length = 250, nullable = false)
 	private String password;
 
 	@Column(name = "tx_mobile", length = 20, nullable = true)

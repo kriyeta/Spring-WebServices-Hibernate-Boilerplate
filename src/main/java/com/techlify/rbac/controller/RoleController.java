@@ -70,14 +70,14 @@ public class RoleController {
 	@RequestMapping(value = { "/add" }, method = RequestMethod.POST)
 	public @ApiResponseObject @ResponseBody Result saveRole(
 			@ApiBodyObject @RequestBody Role role) {
-		Result result = new Result("failed",
+		Result result = new Result("Failed",
 				"Ether Role is null or user alreday exists");
 		try {
 			if (role != null
 					&& roleRepository.findByName(role.getName()) == null)
-				result = new Result("sucess", roleRepository.saveAndFlush(role));
+				result = new Result("Success", roleRepository.saveAndFlush(role));
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 		
 		return result;
